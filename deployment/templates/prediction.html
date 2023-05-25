@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Credit Default Risk Prediction</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style-prediction.css') }}">
+</head>
+<body>
+    <h1>Home Credit Default Risk Prediction</h1>
+    <div class="container">
+        <form method="get" action="/customer_details">
+            <table>
+                <tr>
+                    <th>Select Customer ID:</th>
+                    <td>
+                        <select name="customer_id">
+                            <option value="">-- Select Customer ID --</option>
+                            <!-- Dynamically populate the options using Python -->
+                            {% for customer_id in customer_ids %}
+                                <option value="{{ customer_id }}">{{ customer_id }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+            <button class="btn-get-details" type="submit">Get Customer Details</button>
+        </form>
+        
+        {% if customer_details %}
+            <div class="customer-details">
+                <h3>Customer Details</h3>
+                <div class="table-container">
+                <table>
+                    <tr>
+                        {% for header in customer_details['headers'] %}
+                            <th>{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        {% for value in customer_details['values'] %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                </table>
+                </div>
+            </div>
+            <form method="post" action="/result">
+                <button class="btn-predict" type="submit">Predict</button>
+            </form>
+        {% endif %}
+    </div>
+</body>
+</html>
